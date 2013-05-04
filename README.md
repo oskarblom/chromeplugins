@@ -6,9 +6,10 @@ Chrome extensions
 * Install grunt-cli with `$ npm install -g grunt-cli`
 
 ## Installation
-Run grunt from the repo dir: `$ grunt`
 
-This generates the extensions in the build dir.
+Retreive the dependencies with `$ npm install`
+
+Run grunt from the repo dir: `$ grunt` This generates the extensions in the build dir.
 
 ## Current extensions
 ### Load jquery bookmarklet. 

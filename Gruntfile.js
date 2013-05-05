@@ -1,13 +1,26 @@
 module.exports = function(grunt) {
+    "use strict";
 
     var getjquery = {
+        srcfile: "src/getjquery/getjquery.js",
+
+        destfile: "build/getjquery/getjquery.min.js",
+
+        compilefile: "build/getjquery/getjquerybookmarklet.html",
+
         createfile: function() {
-            var content = grunt.file.read("build/getjquery.min.js");
+            var content = grunt.file.read(getjquery.destfile);
             var template = "<a href='javascript:<%= content %>'>Load jQuery</a>";
             var out = grunt.template.process(template, { data: { content: content }});
-            grunt.file.write("build/getjquerybookmarklet.html", out);
-            grunt.file.delete("build/getjquery.min.js");
-            grunt.log.write("bookmarklet written to: build/getjquerybookmarklet.html\n");
+            grunt.file.write(getjquery.compilefile, out);
+            grunt.file["delete"](getjquery.destfile);
+            grunt.log.write("bookmarklet written to: " + getjquery.compilefile + "\n");
+        },
+
+        getuglifycfg: function() {
+            var opts = {};
+            opts[getjquery.destfile] =  [getjquery.srcfile];
+            return opts;
         }
     };
 
@@ -15,7 +28,9 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         uglify: {
             options: { compress: true, mangle: true, report: "min" },
-            getjquery: { files: { "build/getjquery.min.js": ["src/getjquery.js"] } }
+            getjquery: { 
+                files : getjquery.getuglifycfg()
+            }
         }
     });
 
